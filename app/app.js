@@ -1,17 +1,19 @@
 
 class messages {
     constructor(){
-        this.messages = ['apple', 'bandana', 'Guava'];
-        // this.getMessages();
+        this.messages = [];
+        this.getMessages();
     }
     getMessages() {
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = () => {
-            if (this.readyState == 4 && this.status == 200) {
-                messages.messages = this.responseText;
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                const responseParsed = JSON.parse(xhttp.responseText);
+                this.messages = responseParsed;
+                this.displayMessage(this.messages);
             }
         };
-        xhttp.open("GET", "", true);
+        xhttp.open("GET", "http://localhost:3000/messages", true);
         xhttp.send();
     }
     displayMessage() {
@@ -24,4 +26,3 @@ class messages {
     }
 }
 let stuff = new messages();
-stuff.displayMessage();
